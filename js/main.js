@@ -205,6 +205,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     lightboxImg.src = img.src;
                     lightboxImg.alt = img.alt || 'Enlarged View';
                     
+                    // Prevent low-resolution images from blowing up and looking pixelated
+                    lightboxImg.style.opacity = '0';
+                    lightboxImg.onload = () => {
+                        if (lightboxImg.naturalWidth <= 300) {
+                            lightboxImg.style.maxWidth = '360px';
+                        } else {
+                            lightboxImg.style.maxWidth = '100%';
+                        }
+                        lightboxImg.style.opacity = '1';
+                    };
+                    
                     const title = titleEl ? titleEl.textContent : '';
                     const desc = descEl ? descEl.textContent : '';
                     lightboxCaption.innerHTML = `<h4>${title}</h4><p>${desc}</p>`;

@@ -518,40 +518,67 @@ img {
     width: 60px;
 }
 
-/* FLOATING WHATSAPP BUTTON */
-.floating-whatsapp {
+/* FLOATING QUICK ACTIONS */
+.floating-actions {
     position: fixed;
     bottom: 30px;
     right: 30px;
     z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.floating-whatsapp a {
+.floating-action-btn {
     display: flex;
     align-items: center;
-    background-color: #25D366;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
     color: var(--white);
-    padding: 12px 20px;
-    border-radius: 50px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    text-decoration: none;
+}
+
+.floating-action-btn i {
+    font-size: 22px;
+}
+
+.floating-action-btn.facebook {
+    background-color: #1877F2;
+}
+
+.floating-action-btn.whatsapp {
+    background-color: #25D366;
+}
+
+.floating-action-btn .action-badge {
+    position: absolute;
+    right: 60px;
+    background-color: rgba(26, 26, 26, 0.9);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
     font-weight: 500;
-}
-
-.floating-whatsapp a i {
-    font-size: 24px;
-    margin-right: 8px;
-}
-
-.whatsapp-badge {
-    max-width: 0;
-    overflow: hidden;
     white-space: nowrap;
-    transition: max-width 0.5s ease-in-out;
-    font-size: 13px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.floating-whatsapp:hover .whatsapp-badge {
-    max-width: 150px;
+.floating-action-btn:hover {
+    transform: scale(1.1) translateY(-2px);
+}
+
+.floating-action-btn:hover .action-badge {
+    opacity: 1;
+    visibility: visible;
+    right: 65px;
 }
 
 /* ABOUT SECTION */
@@ -966,6 +993,18 @@ img {
     margin-bottom: 20px;
     color: var(--gold);
     font-size: 50px;
+    overflow: hidden;
+}
+
+.product-img img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-img img {
+    transform: scale(1.06);
 }
 
 .product-info {
@@ -1076,6 +1115,26 @@ img {
 
 .gallery-item:nth-child(5) {
     grid-column: span 4;
+    grid-row: span 1;
+}
+
+.gallery-item:nth-child(6) {
+    grid-column: span 3;
+    grid-row: span 1;
+}
+
+.gallery-item:nth-child(7) {
+    grid-column: span 3;
+    grid-row: span 1;
+}
+
+.gallery-item:nth-child(8) {
+    grid-column: span 3;
+    grid-row: span 1;
+}
+
+.gallery-item:nth-child(9) {
+    grid-column: span 3;
     grid-row: span 1;
 }
 
@@ -1421,6 +1480,10 @@ img {
     .gallery-item:nth-child(3) { grid-column: span 2; }
     .gallery-item:nth-child(4) { grid-column: span 2; }
     .gallery-item:nth-child(5) { grid-column: span 2; }
+    .gallery-item:nth-child(6) { grid-column: span 2; }
+    .gallery-item:nth-child(7) { grid-column: span 2; }
+    .gallery-item:nth-child(8) { grid-column: span 2; }
+    .gallery-item:nth-child(9) { grid-column: span 2; }
     
     .hero-section { height: 650px; }
     .hero-title { font-size: 44px; }
@@ -1510,5 +1573,99 @@ img {
     
     .product-img {
         height: 200px;
+    }
+}
+
+/* LIGHTBOX MODAL */
+.lightbox-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 8, 7, 0.96);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.lightbox-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: var(--white);
+    font-size: 50px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: var(--transition);
+    user-select: none;
+    z-index: 10002;
+}
+
+.lightbox-close:hover {
+    color: var(--gold);
+    transform: scale(1.1);
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 10001;
+}
+
+.lightbox-content img {
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 4px;
+    border: 2px solid var(--gold-light);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.lightbox-modal.active .lightbox-content img {
+    transform: scale(1);
+}
+
+.lightbox-caption {
+    margin-top: 15px;
+    text-align: center;
+    color: var(--white);
+}
+
+.lightbox-caption h4 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 5px;
+}
+
+.lightbox-caption p {
+    font-size: 13px;
+    color: #ccc;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+    .lightbox-close {
+        top: 20px;
+        right: 25px;
+        font-size: 40px;
     }
 }

@@ -186,4 +186,59 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- 6. INTERACTIVE GALLERY LIGHTBOX MODAL ---
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    if (galleryItems.length > 0 && lightboxModal && lightboxImg && lightboxCaption && lightboxClose) {
+        
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const img = item.querySelector('img');
+                const titleEl = item.querySelector('.gallery-overlay h4');
+                const descEl = item.querySelector('.gallery-overlay p');
+
+                if (img) {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt || 'Enlarged View';
+                    
+                    const title = titleEl ? titleEl.textContent : '';
+                    const desc = descEl ? descEl.textContent : '';
+                    lightboxCaption.innerHTML = `<h4>${title}</h4><p>${desc}</p>`;
+
+                    lightboxModal.classList.add('active');
+                    lightboxModal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden'; // Lock scrolling
+                }
+            });
+        });
+
+        function closeLightbox() {
+            lightboxModal.classList.remove('active');
+            lightboxModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = ''; // Unlock scrolling
+            setTimeout(() => {
+                lightboxImg.src = '';
+            }, 300); // Clear source after animation fade-out finishes
+        }
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        
+        lightboxModal.addEventListener('click', (e) => {
+            // Close when clicking the overlay backdrop itself, not on the image contents
+            if (e.target === lightboxModal) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+    }
+
 });

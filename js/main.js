@@ -205,13 +205,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     lightboxImg.src = img.src;
                     lightboxImg.alt = img.alt || 'Enlarged View';
                     
-                    // Prevent low-resolution images from blowing up and looking pixelated
+                    // Scale images appropriately so they are clearly visible and look premium
                     lightboxImg.style.opacity = '0';
                     lightboxImg.onload = () => {
                         if (lightboxImg.naturalWidth <= 300) {
-                            lightboxImg.style.maxWidth = '360px';
+                            lightboxImg.style.width = '500px';
+                            lightboxImg.style.maxWidth = '90vw';
                         } else {
-                            lightboxImg.style.maxWidth = '100%';
+                            lightboxImg.style.width = '100%';
+                            lightboxImg.style.maxWidth = '850px';
                         }
                         lightboxImg.style.opacity = '1';
                     };
@@ -233,6 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = ''; // Unlock scrolling
             setTimeout(() => {
                 lightboxImg.src = '';
+                lightboxImg.style.width = '';
+                lightboxImg.style.maxWidth = '';
             }, 300); // Clear source after animation fade-out finishes
         }
 
